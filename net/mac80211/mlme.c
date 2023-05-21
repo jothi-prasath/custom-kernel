@@ -2222,7 +2222,6 @@ static void ieee80211_change_ps(struct ieee80211_local *local)
 
 static bool ieee80211_powersave_allowed(struct ieee80211_sub_if_data *sdata)
 {
-	struct ieee80211_local *local = sdata->local;
 	struct ieee80211_if_managed *mgd = &sdata->u.mgd;
 	struct sta_info *sta = NULL;
 	bool authorized = false;
@@ -2239,8 +2238,7 @@ static bool ieee80211_powersave_allowed(struct ieee80211_sub_if_data *sdata)
 	if (mgd->flags & IEEE80211_STA_CONNECTION_POLL)
 		return false;
 
-	if (!(local->hw.wiphy->flags & WIPHY_FLAG_SUPPORTS_MLO) &&
-	    !sdata->deflink.u.mgd.have_beacon)
+	if (!sdata->deflink.u.mgd.have_beacon)
 		return false;
 
 	rcu_read_lock();
@@ -2259,8 +2257,7 @@ void ieee80211_recalc_ps(struct ieee80211_local *local)
 	int count = 0;
 	int timeout;
 
-	if (!ieee80211_hw_check(&local->hw, SUPPORTS_PS) ||
-	    ieee80211_hw_check(&local->hw, SUPPORTS_DYNAMIC_PS)) {
+	if (!ieee80211_hw_check(&local->hw, SUPPORTS_PS)) {
 		local->ps_sdata = NULL;
 		return;
 	}
