@@ -1,7 +1,7 @@
 #!/bin/bash
 
 LOG_FILE="../kernel_build.log"
-
+export CC=clang LLVM=1
 
 start_time=$(date +"%T")
 kernel_version=$(make kernelversion)
