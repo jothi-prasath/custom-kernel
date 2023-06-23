@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export CC=clang LLVM=1
+#export CC=clang LLVM=1
 
 sudo make -j$(nproc) modules_install &&
 sudo make -j$(nproc) install &&
